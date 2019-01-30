@@ -22,6 +22,10 @@ module.exports = (env, options) => ({
   module: {
     rules: [
       {
+        test: /\.ts$/,
+        use: ["babel-loader", "ts-loader"]
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -37,5 +41,8 @@ module.exports = (env, options) => ({
   plugins: [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
-  ]
+  ],
+  resolve: {
+    extensions: [".ts", ".js"]
+  }
 });
