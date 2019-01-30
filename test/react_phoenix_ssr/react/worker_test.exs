@@ -1,7 +1,7 @@
-defmodule ReactPhoenixSsr.Renderer.WorkerTest do
+defmodule ReactPhoenixSsr.React.WorkerTest do
   use ExUnit.Case, async: true
 
-  alias ReactPhoenixSsr.Renderer.Worker
+  alias ReactPhoenixSsr.React.Worker
 
   describe "start_link/1" do
     test "starts a node process" do

@@ -1,4 +1,4 @@
-defmodule ReactPhoenixSsr.Renderer.Worker do
+defmodule ReactPhoenixSsr.React.Worker do
   @moduledoc """
   Spawns a node process that can render React components into HTML strings.
   """

@@ -1,9 +1,9 @@
-defmodule ReactPhoenixSsr.Renderer do
+defmodule ReactPhoenixSsr.React do
   @moduledoc """
   Public functions for rendering a react components.
   """
   use Supervisor
-  alias ReactPhoenixSsr.Renderer.Worker
+  alias ReactPhoenixSsr.React.Worker
 
   @pool_name :renderer
 
