@@ -8,14 +8,15 @@ defmodule ReactPhoenixSsr.Renderer.Worker do
     GenServer.start_link(__MODULE__, opts)
   end
 
+  @impl GenServer
   def init([]) do
-    {"", 0} = System.cmd("tsc", [], cd: "assets")
     node = System.find_executable("node")
     port = Port.open({:spawn_executable, node}, args: ["server.js"], cd: "assets/dist")
 
     {:ok, %{port: port, from: nil}}
   end
 
+  @impl GenServer
   def handle_call(:port, _from, state) do
     {:reply, state.port, state}
   end
@@ -32,6 +33,7 @@ defmodule ReactPhoenixSsr.Renderer.Worker do
     {:noreply, Map.put(state, :from, from)}
   end
 
+  @impl GenServer
   def handle_info({_port, {:data, data}}, state) do
     GenServer.reply(state.from, Jason.decode(data))
 

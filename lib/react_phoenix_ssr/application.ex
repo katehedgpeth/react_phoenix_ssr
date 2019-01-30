@@ -8,6 +8,7 @@ defmodule ReactPhoenixSsr.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
+      ReactPhoenixSsr.Renderer,
       # Start the endpoint when the application starts
       ReactPhoenixSsrWeb.Endpoint
       # Starts a worker by calling: ReactPhoenixSsr.Worker.start_link(arg)
