@@ -2,6 +2,8 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import css from "../css/app.css"
+import React from "react";
+import ReactDOM from "react-dom";
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
@@ -16,4 +18,9 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-import _helloWorld from "../ts/helloWorld";
+import HelloWorld from "../ts/HelloWorld";
+
+ReactDOM.render(
+  React.createElement(HelloWorld, {}),
+  document.getElementById("react-root")
+)

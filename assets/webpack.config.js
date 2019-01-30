@@ -22,11 +22,11 @@ module.exports = (env, options) => ({
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         use: ["babel-loader", "ts-loader"]
       },
       {
-        test: /\.js$/,
+        test: /\.js?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
@@ -43,6 +43,6 @@ module.exports = (env, options) => ({
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
   ],
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
   }
 });
