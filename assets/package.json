@@ -6,6 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "@types/react": "^16.7.22",
     "@types/react-dom": "^16.0.11",
     "phoenix": "file:../deps/phoenix",
@@ -16,6 +17,8 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "@types/node": "^10.12.19",
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^4.5.0",
     "css-loader": "^0.28.10",

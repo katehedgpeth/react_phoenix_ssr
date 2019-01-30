@@ -8,10 +8,10 @@ defmodule ReactPhoenixSsr.Renderer.Worker do
     GenServer.start_link(__MODULE__, opts)
   end
 
-  def init(opts) do
-    cd = Keyword.get(opts, :cd, "assets/js")
+  def init([]) do
+    {"", 0} = System.cmd("tsc", [], cd: "assets")
     node = System.find_executable("node")
-    port = Port.open({:spawn_executable, node}, args: ["server.js"], cd: cd)
+    port = Port.open({:spawn_executable, node}, args: ["server.js"], cd: "assets/dist")
 
     {:ok, %{port: port, from: nil}}
   end
@@ -23,7 +23,7 @@ defmodule ReactPhoenixSsr.Renderer.Worker do
   def handle_call({:html, component, props}, from, state) do
     body =
       Jason.encode!(%{
-        component: component,
+        name: component,
         props: props
       })
 
@@ -33,7 +33,7 @@ defmodule ReactPhoenixSsr.Renderer.Worker do
   end
 
   def handle_info({_port, {:data, data}}, state) do
-    GenServer.reply(state.from, data)
+    GenServer.reply(state.from, Jason.decode(data))
 
     {:noreply, Map.put(state, :from, nil)}
   end

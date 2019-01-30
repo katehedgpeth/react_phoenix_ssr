@@ -21,8 +21,13 @@ defmodule ReactPhoenixSsr.Renderer.WorkerTest do
   describe "handle_call({:html, _, _})" do
     test "renders a component to a string" do
       assert {:ok, pid} = Worker.start_link([])
-      rendered = GenServer.call(pid, {:html, "HelloWorld", %{}})
-      assert rendered == "<div>Hello World!!!</div>"
+      assert {:ok, response} = GenServer.call(pid, {:html, "HelloWorld", %{}})
+
+      assert response == %{
+               "markup" => "<div data-reactroot=\"\">Hello World!!!</div>",
+               "error" => nil,
+               "component" => "HelloWorld"
+             }
     end
   end
 end
