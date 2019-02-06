@@ -42,6 +42,7 @@ defmodule ReactPhoenixSsrWeb do
       import ReactPhoenixSsrWeb.ErrorHelpers
       import ReactPhoenixSsrWeb.Gettext
       alias ReactPhoenixSsrWeb.Router.Helpers, as: Routes
+      alias ReactPhoenixSsr.React
     end
   end
 

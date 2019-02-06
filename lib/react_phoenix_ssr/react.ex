@@ -3,7 +3,11 @@ defmodule ReactPhoenixSsr.React do
   Public functions for rendering a react components.
   """
   use Supervisor
+
   alias ReactPhoenixSsr.React.Worker
+
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import Phoenix.HTML, only: [raw: 1]
 
   @pool_name :renderer
 
@@ -14,13 +18,29 @@ defmodule ReactPhoenixSsr.React do
     max_overflow: 0
   ]
 
-  @spec render(String.t(), map()) :: String.t()
+  @spec render(String.t(), map()) :: Phoenix.HTML.Safe.t()
   def render(<<component::binary>>, %{} = props) do
-    {:ok, %{"markup" => markup}} = do_render(component, props)
-    markup
+    {:ok, %{"markup" => markup}} = get_html(component, props)
+
+    content_tag(
+      :div,
+      [raw(markup)],
+      data: [
+        rendered: true,
+        component: component,
+        props: Jason.encode!(props)
+      ]
+    )
   end
 
-  defp do_render(component, props) do
+  defp get_html(component, props) do
+    component
+    |> poolboy_starter(props)
+    |> Task.async()
+    |> Task.await(5_000)
+  end
+
+  defp poolboy_starter(component, props) do
     fn ->
       :poolboy.transaction(
         @pool_name,
@@ -28,8 +48,6 @@ defmodule ReactPhoenixSsr.React do
         :infinity
       )
     end
-    |> Task.async()
-    |> Task.await(5_000)
   end
 
   @spec start_link([]) :: :ignore | {:error, any()} | {:ok, pid()}
